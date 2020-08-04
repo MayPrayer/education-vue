@@ -18,9 +18,9 @@
         <el-date-picker v-model="teacherQuery.gmtModified" type="datetime" placeholder="更新时间"></el-date-picker>
       </el-form-item>
       <el-form-item label="">
-        <el-button type="primary" icon="el-icon-zoom-in" plain @click="getList">查询</el-button>
+        <el-button type="primary" icon="el-icon-zoom-in" plain @click="getList()">查询</el-button>
       </el-form-item>
-      <el-button  @click="resetData">清空</el-button>
+      <el-button @click="resetData">清空</el-button>
     </el-form>
     <!--数据表格-->
     <el-table :data="list" border style="width: 100%" class="data-table">
@@ -76,11 +76,12 @@
       //默认参数curpage 无参数师默认为1，有参，则赋值
       getList(curpage = 1) {
         this.curpage = curpage
-        console.log(this.teacherQuery)
+        console.log("this.curpage变成了："+ this.curpage)
         teacher.getTeacherListPage(this.curpage, this.pagesize, this.teacherQuery).then(response => {
           if (response.data.code = 20000) {
-            this.list = response.data
-            this.total = response.count
+            console.log(response)
+            this.list = response['data']
+            this.total = response['count']
           }
         }).catch(error => {
           console.log(error)
