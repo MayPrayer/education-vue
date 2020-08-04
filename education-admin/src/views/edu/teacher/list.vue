@@ -38,7 +38,7 @@
       <el-table-column label="操作" width="200px">
         <template slot-scope="scope">
           <el-button type="primary" size="small" @click="studentEdit(scope.$index, scope.row)">编辑</el-button>
-          <el-button type="danger" size="small" @click="studentDelete(scope.row)">删除</el-button>
+          <el-button type="danger" size="small" @click="removeDataById(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -76,12 +76,12 @@
       //默认参数curpage 无参数师默认为1，有参，则赋值
       getList(curpage = 1) {
         this.curpage = curpage
-        console.log("this.curpage变成了："+ this.curpage)
+        console.log('this.curpage变成了：' + this.curpage)
         teacher.getTeacherListPage(this.curpage, this.pagesize, this.teacherQuery).then(response => {
           if (response.data.code = 20000) {
             console.log(response)
-            this.list = response['data']
-            this.total = response['count']
+            this.list = response.data
+            this.total = response.count
           }
         }).catch(error => {
           console.log(error)
@@ -91,9 +91,29 @@
       resetData() {
         this.teacherQuery = {}
         this.getList()
+      },
+      removeDataById(id) { //删除讲师按钮的方法
+        this.$confirm('此操作将永久删除讲师信息, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          teacher.deleteTeacherById(id)
+            .then(response => { //删除成功
+              //提示信息
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              })
+              //回到列表页面
+              this.getList()
+            })
+        })
+        //点取消执行catch方法  用户体验角度
+        //此处无需进行提示取消
+        //框架在./utils/request.js封装好了提示error的方法
       }
     }
-
   }
 </script>
 

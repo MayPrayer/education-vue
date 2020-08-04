@@ -8,15 +8,13 @@ export default {
       method: 'post',
       data: teacherquery
     })
+  },
 
-    // 根据id删除教师数据
-    deleteTeacherById(teacherId)
-    {
-      return request({
-        url: `/edu/teacher/${teacherId}`,
-        method: 'delete'
-      })
-    }
-
+  // 根据id删除教师数据
+  deleteTeacherById(teacherId) {
+    return request({
+      url: `/edu/teacher/${teacherId}`,
+      method: 'delete'
+    })
   }
 }
