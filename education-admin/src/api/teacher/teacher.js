@@ -16,5 +16,31 @@ export default {
       url: `/edu/teacher/${teacherId}`,
       method: 'delete'
     })
+  },
+
+  //添加一个教师信息
+  addOneTeacher(teacherinfo) {
+    return request({
+      url: `/edu/teacher/addTeacher`,
+      method: 'post',
+      data: teacherinfo
+    })
+  },
+
+  //根据id查询一个教师详细信息
+  getOneTeacherByID(id){
+    return request({
+      url: `/edu/teacher/${id}`,
+      method: 'get'
+    })
+  },
+  //修改教师信息
+  updateOneTeacher(teacherinfo){
+    return request({
+      url: `/edu/teacher/modifTeacher`,
+      method: 'post',
+      data: teacherinfo
+    })
   }
+
 }

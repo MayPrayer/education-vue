@@ -37,7 +37,7 @@
       <el-table-column prop="gmtModified" label="更新时间"></el-table-column>
       <el-table-column label="操作" width="200px">
         <template slot-scope="scope">
-          <el-button type="primary" size="small" @click="studentEdit(scope.$index, scope.row)">编辑</el-button>
+          <router-link :to="'/teacher/update/'+scope.row.id"><el-button type="primary" size="small" @click="">编辑</el-button></router-link>
           <el-button type="danger" size="small" @click="removeDataById(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
