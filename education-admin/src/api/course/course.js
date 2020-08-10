@@ -17,7 +17,7 @@ export default {
   UpdateCourse(courseInfo) {
     return request({
       url: '/edu/course/updatecourse',
-      method: 'get',
+      method: 'post',
       data: courseInfo
     })
   }

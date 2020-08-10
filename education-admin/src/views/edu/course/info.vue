@@ -86,11 +86,24 @@
         sonsubjectlist: []
       }
     },
+    watch: {
+      $route(to, from) {
+        //路由跳转就会执行初始化方法
+        this.init()
+      }
+    },
     methods: {
       saveAndUpdate() {
         if (this.$route.params && this.$route.params.id) {
           //修改操作
-          course.UpdateCourse(this.courseInfo)
+          course.UpdateCourse(this.courseInfo).then(response => {
+            this.courseid = response.data
+            this.$message({
+              type: 'success',
+              message: '添加课程成功'
+            })
+            this.$router.push({ path: '/course/chapter/' + this.$route.params.id })
+          })
         } else {
           //新增操作
           course.addCourse(this.courseInfo).then(response => {
@@ -137,15 +150,14 @@
           this.$message.error('上传头像图片大小不能超过 2MB!')
         }
         return isJPG && isLt2M
-      }
-    },
-    created() {
-      //如果是修改课程信息页面的话，获取courside
-      if (this.$route.params && this.$route.params.id) {
-        //初始化联动的数据，初始化讲师
-        this.getAllTeacher()
-        this.getAllSubject()
-        course.findCourse(this.$route.params.id).then(response => {
+      },
+      init() {
+        //如果是修改课程信息页面的话，获取courside
+        if (this.$route.params && this.$route.params.id) {
+          //初始化联动的数据，初始化讲师
+          this.getAllTeacher()
+          this.getAllSubject()
+          course.findCourse(this.$route.params.id).then(response => {
             this.courseInfo = response.data
             //查询所有分类信息 ,初始化原来的信息，还原现场
             for (var i = 0; i < this.subjectlist.length; i++) {
@@ -158,11 +170,15 @@
               }
             }
           })
-      } else {
-        //就是新增课程信息
-        this.getAllTeacher()
-        this.getAllSubject()
+        } else {
+          //就是新增课程信息
+          this.getAllTeacher()
+          this.getAllSubject()
+        }
       }
+    },
+    created() {
+      this.init()
     }
   }
 </script>
