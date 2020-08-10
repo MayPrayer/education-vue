@@ -28,18 +28,25 @@ export default {
   },
 
   //根据id查询一个教师详细信息
-  getOneTeacherByID(id){
+  getOneTeacherByID(id) {
     return request({
       url: `/edu/teacher/${id}`,
       method: 'get'
     })
   },
   //修改教师信息
-  updateOneTeacher(teacherinfo){
+  updateOneTeacher(teacherinfo) {
     return request({
       url: `/edu/teacher/modifTeacher`,
       method: 'post',
       data: teacherinfo
+    })
+  },
+  //查询所有教师
+  getAllTeacher() {
+    return request({
+      url: `/edu/teacher/findAll`,
+      method: 'get'
     })
   }
 

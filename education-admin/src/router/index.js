@@ -33,40 +33,6 @@ export const constantRouterMap = [
       component: _import('dashboard/index')
     }]
   },
-  // example左侧菜单
-  {
-    path: '/example',
-    component: Layout,
-    redirect: '/example/table', // 展开table选项单
-    name: 'Example',
-    meta: { title: 'Example', icon: 'example' },
-    children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: _import('table/index'),
-        meta: { title: 'Table', icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: _import('tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
-    ]
-  },
-  {
-    path: '/form', // form菜单
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: _import('form/index'),
-        meta: { title: 'Form', icon: 'form' }
-      }
-    ]
-  },
   // teacher菜单
   {
     path: '/teacher',
@@ -91,7 +57,70 @@ export const constantRouterMap = [
         path: 'update/:id',
         name: '教师修改',
         component: _import('edu/teacher/add'),
-        meta: { title: '教师添加',noCache:true},
+        meta: { title: '教师添加', noCache: true },
+        hidden: true
+      }
+    ]
+  },
+  {
+    path: '/subject',
+    component: Layout,
+    redirect: '/subject/list',
+    name: '课程分类管理',
+    meta: { title: '课程分类管理', icon: 'example' },
+    children: [
+      {
+        path: 'list',
+        name: '课程分类列表',
+        component: _import('edu/subject/list'),
+        meta: { title: '课程分类列表', icon: 'table' }
+      },
+      {
+        path: 'add',
+        name: '课程分类添加',
+        component: _import('edu/subject/add'),
+        meta: { title: '课程分类添加', icon: 'tree' } // title为菜单名称
+      }
+    ]
+  },
+  {
+    path: '/course',
+    component: Layout,
+    redirect: '/course/list',
+    name: '课程管理',
+    meta: { title: '课程管理', icon: 'example' },
+    children: [
+      {
+        path: 'list',
+        name: '课程列表',
+        component: _import('edu/course/list'),
+        meta: { title: '课程列表', icon: 'table' }
+      },
+      {
+        path: 'info',
+        name: '课程添加',
+        component: _import('edu/course/info'),
+        meta: { title: '课程添加', icon: 'tree', keepAlive: true } // title为菜单名称
+      },
+      {
+        path: 'info/:id',
+        name: '课程添加',
+        component: _import('edu/course/info'),
+        meta: { title: '课程添加', noCache: true, keepAlive: true },// title为菜单名称
+        hidden: true
+      },
+      {
+        path: 'publish/:id',
+        name: '课程发布',
+        component: _import('edu/course/publish'),
+        meta: { title: '课程列表', noCache: true, keepAlive: true },
+        hidden: true
+      },
+      {
+        path: 'chapter/:id',
+        name: '课程章节',
+        component: _import('edu/course/chapter'),
+        meta: { title: '课程列表', noCache: true, keepAlive: true },
         hidden: true
       }
     ]

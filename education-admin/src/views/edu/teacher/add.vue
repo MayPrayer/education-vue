@@ -16,6 +16,20 @@
       <el-form-item label="教师排序">
         <el-input-number v-model="teacher.sort" :min="0" :max="5" label="优先级"></el-input-number>
       </el-form-item>
+
+      <el-form-item label="教师头像">
+        <el-upload
+          class="avatar-uploader"
+          action="http://localhost:9001/edo/oss/fileUpload"
+          :show-file-list="false"
+          :on-success="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload">
+          <img v-if="teacher.avatar" :src="teacher.avatar" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
+      </el-form-item>
+
+
       <el-form-item label="教师简介">
         <el-input type="textarea" placeholder="请输入简介，最长不超过50字" v-model="teacher.intro" max="50" show-word-limit
                   :rows="12"></el-input>
@@ -65,17 +79,14 @@
         } else {
           this.teacher = {}
         }
-      },
-
-      //添加与更新教师信息方法
+      }, //添加与更新教师信息方法
       saveAndUpdateTeacher() {
         if (this.$route.params && this.$route.params.id) {
           this.updateOneTeacher(this.teacher)
         } else {
           this.saveTeacher()
         }
-      }
-      ,
+      },
       saveTeacher() {
         console.log('开始创建')
         teacher.addOneTeacher(this.teacher).then((response) => {
@@ -88,18 +99,15 @@
           this.$router.push({ path: '/teacher/list' })
           console.log('执行完毕')
         })
-      }
-      ,
+      },
       resetTeacherData() {
         this.teacher = {}
-      }
-      ,
+      },
       getOneTeacherById(id) {
         teacher.getOneTeacherByID(id).then((response) => {
           this.teacher = response.data
         })
-      }
-      ,
+      },
       updateOneTeacher(teacherinfo) {
         teacher.updateOneTeacher(teacherinfo).then((response) => {
           this.$message({
@@ -110,10 +118,52 @@
           this.$router.push({ path: '/teacher/list' })
           console.log('执行完毕')
         })
+      },
+      //上传头像前的校验
+      beforeAvatarUpload(file) {
+        const isJPG = file.type === 'image/jpeg'
+        const isLt2M = file.size / 1024 / 1024 < 2
+
+        if (!isJPG) {
+          this.$message.error('上传头像图片只能是 JPG 格式!')
+        }
+        if (!isLt2M) {
+          this.$message.error('上传头像图片大小不能超过 2MB!')
+        }
+        return isJPG && isLt2M
+      },
+      handleAvatarSuccess(res, file) {
+        this.teacher.avatar = res.data.filepath
       }
     }
   }
 </script>
 <style>
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+
+  .avatar {
+    width: 150px;
+    height: 150px;
+    display: block;
+  }
 
 </style>
