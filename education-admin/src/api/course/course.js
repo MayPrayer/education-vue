@@ -20,5 +20,24 @@ export default {
       method: 'post',
       data: courseInfo
     })
+  },
+  getFinalCouseinfo(courseid) {
+    return request({
+      url: '/edu/course/finalcourse/' + courseid,
+      method: 'get'
+    })
+  },
+  getCourseListPage(page, limit, courseQuery) {
+    return request({
+      url: '/edu/course/pageCourseCondition/' + page + '/' + limit,
+      method: 'post',
+      data: courseQuery
+    })
+  },
+  deleteCourseById(courseId) {
+    return request({
+      url: '/edu/course/deleteCourseById/' + courseId,
+      method: 'delete'
+    })
   }
 }
